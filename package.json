@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "description": "observable",
-  "name": "my-webpack-project",
+  "name": "observable",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
