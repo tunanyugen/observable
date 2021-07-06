@@ -1,4 +1,4 @@
-export declare class Observable {
+export default class Observable {
     observables: Observable[];
     private _callback;
     getCallbackByRef: () => Function;
@@ -7,4 +7,3 @@ export declare class Observable {
     Add: (...observable: Observable[]) => Observable[];
     Resolve: (parameter?: any) => any;
 }
-//# sourceMappingURL=Observable.d.ts.map
