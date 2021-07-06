@@ -1,1 +1,0 @@
-{"version":3,"file":"dist.d.ts","sourceRoot":"","sources":["src/Observable.ts","src/index.ts"],"names":[],"mappings":";IAAA,MAAM,CAAC,OAAO,OAAO,UAAU;QAC3B,WAAW,EAAC,UAAU,EAAE,CAAM;QAC9B,OAAO,CAAC,SAAS,CAAU;QAC3B,gBAAgB,iBAAmC;QACnD,WAAW,aAAa,QAAQ,UAAmC;oBAEvD,WAAS,QAAe;QAGpC,GAAG,kBAAkB,UAAU,EAAE,kBAGhC;QAED,OAAO,eAAe,GAAG,SASxB;KACJ;;ACxBD,QAAA,MAAM,UAAU,KAA0B,CAAC"}
