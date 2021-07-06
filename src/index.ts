@@ -1,1 +1,1 @@
-import Observable from "./Observable";
+require("./Observable");
