@@ -1,2 +1,2 @@
-declare const Observable: any;
+export {};
 //# sourceMappingURL=index.d.ts.map
