@@ -1,4 +1,4 @@
-export default class Observable {
+export declare class Observable {
     observables: Observable[];
     private _callback;
     getCallbackByRef: () => Function;
