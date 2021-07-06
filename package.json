@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Observable",
   "main": "./dist/main.js",
-  "types": "./dist/Observable.d.ts",
+  "types": "./dist",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode=production --node-env=production",
