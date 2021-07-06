@@ -1,4 +1,4 @@
 # ignore everything
 *
 # except for dist folder
-!dist/**/*
+!Observable.ts
