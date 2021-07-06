@@ -1,1 +1,1 @@
-import Observable from "./Observable";
+const Observable = require("./Observable");
