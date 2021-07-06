@@ -1,4 +1,4 @@
-# Ignore everything
+# ignore everything
 *
-# Except dist folder
-!dist/*/**
+# except for dist folder
+!dist/**/*
