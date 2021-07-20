@@ -26,7 +26,9 @@ export default class Observable{
     }
     Remove = (observable:Observable) => {
         let index = this._observables.indexOf(observable);
-        this._observables.splice(index, 1);
+        if (index >= 0){
+            this._observables.splice(index, 1);
+        }
     }
     // execute all observables and callback
     Resolve = () => {
