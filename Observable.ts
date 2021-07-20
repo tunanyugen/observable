@@ -40,7 +40,9 @@ export default class Observable{
         }
     }
     Dispose = () => {
-        this.onDispose.Resolve();
+        if (this.onDispose){
+            this.onDispose.Resolve();
+        }
         for (let i = 0; i < this._observables.length; i++){
             this._observables[i].Dispose();
         }
