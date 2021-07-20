@@ -3,24 +3,22 @@ export default class Observable{
     private _callback:Function;
     getCallbackByRef = () => { return this._callback; }
     setCallback = (callback:Function) => { this._callback = callback; }
-    Dispose:Observable;
+    onDispose:Observable;
 
     constructor(callback:Function = null){
         this.setCallback(callback);
-        
-        this.Dispose = new Observable(() => {
-            for (let i = 0; i < this._observables.length; i++){
-                this._observables[i].Dispose.Resolve();
-            }
-        })
     }
     Add = (observable:Observable) => {
         if (observable != this){
             this._observables.push(observable);
             // remove observable from self array when it get disposed of
-            observable.Dispose.Add(new Observable(() => {
-                this.Remove(observable);
-            }))
+            if (observable.onDispose){
+                observable.onDispose.Add(new Observable(() => {this.Remove(observable);}))
+            } else {
+                observable.onDispose = new Observable(() => {
+                    this.Remove(observable);
+                })
+            }
         } else {
             console.error("Cannot add observable to itself.");
         }
@@ -39,6 +37,12 @@ export default class Observable{
         // resolve self callback
         if (this._callback){
             return this._callback();
+        }
+    }
+    Dispose = () => {
+        this.onDispose.Resolve();
+        for (let i = 0; i < this._observables.length; i++){
+            this._observables[i].Dispose();
         }
     }
 }
