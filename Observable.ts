@@ -7,21 +7,17 @@ export default class Observable{
     constructor(callback:Function = null){
         this.setCallback(callback);
     }
-    Add = (observables:Observable[]) => {
-        for (let i = 0; i < observables.length; i++){
-            if (observables[i] != this){
-                this._observables.push(observables[i]);
-                // remove observable from self array when it get disposed of
-                observables[i].Dispose.Add([
-                    new Observable(() => {
-                        this.Remove(observables[i]);
-                    })
-                ])
-            } else {
-                console.error("Cannot add observable to itself.");
-            }
+    Add = (observable:Observable) => {
+        if (observable != this){
+            this._observables.push(observable);
+            // remove observable from self array when it get disposed of
+            observable.Dispose.Add(new Observable(() => {
+                this.Remove(observable);
+            }))
+        } else {
+            console.error("Cannot add observable to itself.");
         }
-        return observables;
+        return this;
     }
     Remove = (observable:Observable) => {
         let index = this._observables.indexOf(observable);
