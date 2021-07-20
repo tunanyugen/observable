@@ -1,6 +1,5 @@
 export default class Observable{
     private _observables:Observable[] = [];
-    private _parents:Observable[] = [];
     private _callback:Function;
     getCallbackByRef = () => { return this._callback; }
     setCallback = (callback:Function) => { this._callback = callback; }
@@ -8,10 +7,16 @@ export default class Observable{
     constructor(callback:Function = null){
         this.setCallback(callback);
     }
-    Add = (...observables:Observable[]) => {
+    Add = (observables:Observable[]) => {
         for (let i = 0; i < observables.length; i++){
             if (observables[i] != this){
                 this._observables.push(observables[i]);
+                // remove observable from self array when it get disposed of
+                observables[i].Dispose.Add([
+                    new Observable(() => {
+                        this.Remove(observables[i]);
+                    })
+                ])
             } else {
                 console.error("Cannot add observable to itself.");
             }
@@ -33,12 +38,10 @@ export default class Observable{
             return this._callback(parameter);
         }
     }
-    Dispose = () => {
+    Dispose = new Observable(() => {
         for (let i = 0; i < this._observables.length; i++){
-            this._observables[i].Dispose();
+            this._observables[i].Dispose.Resolve();
         }
-        for (let i = 0; i < this._parents.length; i++){
-            this._parents[i].Remove(this);
-        }
-    }
+        this.Dispose.Resolve();
+    })
 }
