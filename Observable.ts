@@ -3,9 +3,16 @@ export default class Observable{
     private _callback:Function;
     getCallbackByRef = () => { return this._callback; }
     setCallback = (callback:Function) => { this._callback = callback; }
+    Dispose:Observable;
 
     constructor(callback:Function = null){
         this.setCallback(callback);
+        
+        this.Dispose = new Observable(() => {
+            for (let i = 0; i < this._observables.length; i++){
+                this._observables[i].Dispose.Resolve();
+            }
+        })
     }
     Add = (observable:Observable) => {
         if (observable != this){
@@ -34,9 +41,4 @@ export default class Observable{
             return this._callback();
         }
     }
-    Dispose = new Observable(() => {
-        for (let i = 0; i < this._observables.length; i++){
-            this._observables[i].Dispose.Resolve();
-        }
-    })
 }
