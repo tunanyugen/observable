@@ -24,20 +24,19 @@ export default class Observable{
         this._observables.splice(index, 1);
     }
     // execute all observables and callback
-    Resolve = (parameter?:any) => {
+    Resolve = () => {
         // resolve all observables' callbacks
         for (let o = 0; o < this._observables.length; o++){
-            this._observables[o].Resolve(parameter);
+            this._observables[o].Resolve();
         }
         // resolve self callback
         if (this._callback){
-            return this._callback(parameter);
+            return this._callback();
         }
     }
     Dispose = new Observable(() => {
         for (let i = 0; i < this._observables.length; i++){
             this._observables[i].Dispose.Resolve();
         }
-        this.Dispose.Resolve();
     })
 }
