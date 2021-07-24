@@ -6,7 +6,7 @@ export default class Observable{
     setCallback = (callback:Function) => { this._callback = callback; }
     onDispose:Observable;
 
-    constructor(callback:Function = null, executeOnce:boolean = true){
+    constructor(callback:Function = null, executeOnce:boolean){
         this.setCallback(callback);
         this._executeOnce = executeOnce;
     }
@@ -15,11 +15,11 @@ export default class Observable{
             this._observables.push(observable);
             // remove observable from self array when it get disposed of
             if (observable.onDispose){
-                observable.onDispose.Add(new Observable(() => {this.Remove(observable);}))
+                observable.onDispose.Add(new Observable(() => {this.Remove(observable);}, true))
             } else {
                 observable.onDispose = new Observable(() => {
                     this.Remove(observable);
-                })
+                }, true)
             }
         } else {
             console.error("Cannot add observable to itself.");
