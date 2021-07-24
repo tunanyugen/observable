@@ -1,12 +1,14 @@
 export default class Observable{
     private _observables:Observable[] = [];
     private _callback:Function;
+    private _executeOnce:boolean = true;
     getCallbackByRef = () => { return this._callback; }
     setCallback = (callback:Function) => { this._callback = callback; }
     onDispose:Observable;
 
-    constructor(callback:Function = null){
+    constructor(callback:Function = null, executeOnce:boolean = true){
         this.setCallback(callback);
+        this._executeOnce = executeOnce;
     }
     Add = (observable:Observable) => {
         if (observable != this){
@@ -40,6 +42,7 @@ export default class Observable{
         if (this._callback){
             return this._callback();
         }
+        if (this._executeOnce) { this.Dispose(); }
     }
     Dispose = () => {
         if (this.onDispose){
