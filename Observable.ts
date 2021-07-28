@@ -10,12 +10,15 @@ export default class Observable{
         this.setCallback(callback);
         this._executeOnce = executeOnce;
     }
-    Add = (observable:Observable) => {
+    Add = (callback:Function, executeOnce:boolean) => {
+        return this.AddObservable(new Observable(callback, executeOnce));
+    }
+    AddObservable = (observable:Observable) => {
         if (observable != this){
             this._observables.push(observable);
             // remove observable from self array when it get disposed of
             if (observable.onDispose){
-                observable.onDispose.Add(new Observable(() => {this.Remove(observable);}, true))
+                observable.onDispose.AddObservable(new Observable(() => {this.Remove(observable);}, true))
             } else {
                 observable.onDispose = new Observable(() => {
                     this.Remove(observable);
