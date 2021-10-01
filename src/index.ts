@@ -1,3 +1,3 @@
 import Observable from "./ts/Observable";
 
-export default Observable;
+(window as any).Observable = Observable;

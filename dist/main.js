@@ -26,7 +26,7 @@ return /******/ (() => { // webpackBootstrap
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _ts_Observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ts/Observable */ \"./src/ts/Observable.ts\");\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_ts_Observable__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\n\n\n//# sourceURL=webpack://observable/./src/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ts_Observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ts/Observable */ \"./src/ts/Observable.ts\");\n\nwindow.Observable = _ts_Observable__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\n\n\n//# sourceURL=webpack://observable/./src/index.ts?");
 
 /***/ }),
 
