@@ -7,8 +7,7 @@ const isProduction = process.env.NODE_ENV == "production";
 const config = {
   entry: "./src/index.ts",
   output: {
-    libraryTarget: "umd",
-    path: path.resolve(__dirname, "dist")
+    path: path.resolve(__dirname, "dist"),
   },
   plugins: [
     // Add your plugins here

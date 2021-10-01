@@ -12,4 +12,3 @@ export declare class Observable {
     Resolve: () => any;
     Dispose: () => void;
 }
-//# sourceMappingURL=Observable.d.ts.map
