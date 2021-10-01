@@ -1,1 +1,3 @@
-export {Observable} from "./ts/Observable";
+import Observable from "./ts/Observable";
+
+module.exports = Observable

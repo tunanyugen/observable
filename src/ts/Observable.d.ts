@@ -1,4 +1,4 @@
-export declare class Observable {
+export default class Observable {
     private _observables;
     private _callback;
     private _executeOnce;
