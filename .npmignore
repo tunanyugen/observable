@@ -2,3 +2,4 @@
 *
 # except for dist folder
 !dist
+!types
