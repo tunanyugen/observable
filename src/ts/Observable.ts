@@ -1,4 +1,4 @@
-export default class Observable{
+export class Observable{
     private _observables:Observable[] = [];
     private _callback:Function;
     private _executeOnce:boolean = true;

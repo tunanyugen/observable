@@ -1,1 +1,1 @@
-export * from "./ts/Observable";
+export {Observable} from "./ts/Observable";
