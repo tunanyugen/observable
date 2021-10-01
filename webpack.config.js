@@ -9,6 +9,7 @@ const config = {
     output: {
         libraryTarget: "umd",
         path: path.resolve(__dirname, "dist"),
+        libraryTarget: "umd"
     },
     plugins: [
         new MergeIntoSingleFilePlugin({
