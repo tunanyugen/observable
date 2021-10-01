@@ -1,1 +1,1 @@
-import Observable from "./ts/Observable"; Observable;
+export * from "./ts/Observable";
