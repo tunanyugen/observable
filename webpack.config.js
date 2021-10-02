@@ -1,5 +1,4 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
-const MergeIntoSingleFilePlugin = require("webpack-merge-and-include-globally");
 const path = require("path");
 
 const isProduction = process.env.NODE_ENV == "production";
@@ -9,14 +8,9 @@ const config = {
     output: {
         libraryTarget: "umd",
         path: path.resolve(__dirname, "dist"),
-        libraryTarget: "umd"
     },
     plugins: [
-        new MergeIntoSingleFilePlugin({
-            files: {
-              "index.d.ts": ["src/ts**/*.d.ts"]
-            },
-        }),
+        
     ],
     module: {
         rules: [
