@@ -5,10 +5,10 @@ export default class Observable {
     getCallbackByRef: () => Function;
     setCallback: (callback: Function) => void;
     onDispose: Observable;
-    constructor(callback: Function, executeOnce: boolean);
+    constructor(callback?: Function, executeOnce?: boolean);
     Add: (callback: Function, executeOnce: boolean) => this;
     AddObservable: (observable: Observable) => this;
     Remove: (observable: Observable) => void;
-    Resolve: () => any;
+    Resolve: () => void;
     Dispose: () => void;
 }

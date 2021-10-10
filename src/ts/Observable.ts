@@ -1,12 +1,12 @@
 export default class Observable{
     private _observables:Observable[] = [];
     private _callback:Function;
-    private _executeOnce:boolean = true;
+    private _executeOnce:boolean;
     getCallbackByRef = () => { return this._callback; }
     setCallback = (callback:Function) => { this._callback = callback; }
     onDispose:Observable;
 
-    constructor(callback:Function = null, executeOnce:boolean){
+    constructor(callback:Function = null, executeOnce:boolean = true){
         this.setCallback(callback);
         this._executeOnce = executeOnce;
     }
@@ -18,7 +18,11 @@ export default class Observable{
             this._observables.push(observable);
             // remove observable from self array when it get disposed of
             if (observable.onDispose){
-                observable.onDispose.AddObservable(new Observable(() => {this.Remove(observable);}, true))
+                observable.onDispose.AddObservable(
+                    new Observable(() => {
+                        this.Remove(observable);
+                    }, true)
+                )
             } else {
                 observable.onDispose = new Observable(() => {
                     this.Remove(observable);
@@ -37,15 +41,17 @@ export default class Observable{
     }
     // execute all observables and callback
     Resolve = () => {
+        // resolve self callback
+        if (this._callback){
+            this._callback();
+        }
         // resolve all observables' callbacks
         for (let o = 0; o < this._observables.length; o++){
             this._observables[o].Resolve();
         }
-        // resolve self callback
-        if (this._callback){
-            return this._callback();
+        if (this._executeOnce) {
+            this.Dispose();
         }
-        if (this._executeOnce) { this.Dispose(); }
     }
     Dispose = () => {
         if (this.onDispose){
