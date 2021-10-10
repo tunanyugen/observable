@@ -1,14 +1,14 @@
 export default class Observable{
     private _observables:Observable[] = [];
     private _callback:Function;
-    private _executeOnce:boolean;
+    executeOnce:boolean;
     getCallbackByRef = () => { return this._callback; }
     setCallback = (callback:Function) => { this._callback = callback; }
     onDispose:Observable;
 
     constructor(callback:Function = null, executeOnce:boolean = true){
         this.setCallback(callback);
-        this._executeOnce = executeOnce;
+        this.executeOnce = executeOnce;
     }
     Add = (callback:Function, executeOnce:boolean) => {
         return this.AddObservable(new Observable(callback, executeOnce));
@@ -45,12 +45,15 @@ export default class Observable{
         if (this._callback){
             this._callback();
         }
-        // resolve all observables' callbacks
+        // resolve all observables
         for (let o = 0; o < this._observables.length; o++){
             this._observables[o].Resolve();
         }
-        if (this._executeOnce) {
-            this.Dispose();
+        // dispose all executeOnce observables
+        for (let o = this._observables.length - 1; o >= 0; o--){
+            if (this._observables[o].executeOnce){
+                this._observables[o].Dispose();
+            }
         }
     }
     Dispose = () => {
