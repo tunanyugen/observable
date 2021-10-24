@@ -1,6 +1,6 @@
 export default class Observable {
-    private _observables;
     private _callback;
+    observables: Observable[];
     executeOnce: boolean;
     getCallbackByRef: () => Function;
     setCallback: (callback: Function) => void;

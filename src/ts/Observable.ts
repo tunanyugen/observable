@@ -1,6 +1,6 @@
 export default class Observable{
-    private _observables:Observable[] = [];
     private _callback:Function;
+    observables:Observable[] = [];
     executeOnce:boolean;
     getCallbackByRef = () => { return this._callback; }
     setCallback = (callback:Function) => { this._callback = callback; }
@@ -15,7 +15,7 @@ export default class Observable{
     }
     AddObservable = (observable:Observable) => {
         if (observable != this){
-            this._observables.push(observable);
+            this.observables.push(observable);
             // remove observable from self array when it get disposed of
             if (observable.onDispose){
                 observable.onDispose.AddObservable(
@@ -34,9 +34,9 @@ export default class Observable{
         return this;
     }
     Remove = (observable:Observable) => {
-        let index = this._observables.indexOf(observable);
+        let index = this.observables.indexOf(observable);
         if (index >= 0){
-            this._observables.splice(index, 1);
+            this.observables.splice(index, 1);
         }
     }
     // execute all observables and callback
@@ -46,13 +46,13 @@ export default class Observable{
             this._callback();
         }
         // resolve all observables
-        for (let o = 0; o < this._observables.length; o++){
-            this._observables[o].Resolve();
+        for (let o = 0; o < this.observables.length; o++){
+            this.observables[o].Resolve();
         }
         // dispose all executeOnce observables
-        for (let o = this._observables.length - 1; o >= 0; o--){
-            if (this._observables[o].executeOnce){
-                this._observables[o].Dispose();
+        for (let o = this.observables.length - 1; o >= 0; o--){
+            if (this.observables[o].executeOnce){
+                this.observables[o].Dispose();
             }
         }
     }
@@ -60,8 +60,8 @@ export default class Observable{
         if (this.onDispose){
             this.onDispose.Resolve();
         }
-        for (let i = 0; i < this._observables.length; i++){
-            this._observables[i].Dispose();
+        for (let i = 0; i < this.observables.length; i++){
+            this.observables[i].Dispose();
         }
     }
 }
