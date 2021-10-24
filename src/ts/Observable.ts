@@ -1,19 +1,21 @@
-export default class Observable{
-    private _callback:Function;
-    observables:Observable[] = [];
+export default class Observable<Callback>{
+    private _callback:(args:Callback)=>any;
+    private _args:Callback;
+    observables:Observable<Callback>[] = [];
     executeOnce:boolean;
     getCallbackByRef = () => { return this._callback; }
-    setCallback = (callback:Function) => { this._callback = callback; }
-    onDispose:Observable;
+    setCallback = (callback:(args:Callback)=>any) => { this._callback = callback; }
+    onDispose:Observable<any>;
 
-    constructor(callback:Function = null, executeOnce:boolean = true){
+    constructor(callback:(args:Callback)=>any = null, args:Callback = null, executeOnce:boolean = true){
+        this._args = args;
         this.setCallback(callback);
         this.executeOnce = executeOnce;
     }
-    Add = (callback:Function, executeOnce:boolean) => {
-        return this.AddObservable(new Observable(callback, executeOnce));
+    Add = (callback:(args:Callback)=>any, executeOnce:boolean) => {
+        return this.AddObservable(new Observable<Callback>(callback, this._args, executeOnce));
     }
-    AddObservable = (observable:Observable) => {
+    AddObservable = (observable:Observable<Callback>) => {
         if (observable != this){
             this.observables.push(observable);
             // remove observable from self array when it get disposed of
@@ -33,7 +35,7 @@ export default class Observable{
         }
         return this;
     }
-    Remove = (observable:Observable) => {
+    Remove = (observable:Observable<Callback>) => {
         let index = this.observables.indexOf(observable);
         if (index >= 0){
             this.observables.splice(index, 1);
@@ -43,7 +45,7 @@ export default class Observable{
     Resolve = () => {
         // resolve self callback
         if (this._callback){
-            this._callback();
+            this._callback(this._args);
         }
         // resolve all observables
         for (let o = 0; o < this.observables.length; o++){
