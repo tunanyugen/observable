@@ -3,10 +3,10 @@ import Observable from "./ts/Observable";
 (window as any).Observable = Observable;
 let arg1 = "ADHJKASHKD";
 let arg2 = 1231232154;
-let a = new Observable<{text:string, num:number}>(null, {text: arg1, num: arg2}, false)
-a.Add((args) => {
+let a = new Observable<{a1:string, a2:number}>(()=>{}, false);
+let b = new Observable<{a1:string, a2:number}>((args) => {
     console.log(args);
-}, true);
-a.AddObservable(new Observable<{text:string, num:number}>(null, null, false));
-(window as any).a = a;
+}, false)
+a.AddObservable(b);
+a.Resolve({a1:arg1, a2:arg2});
 export default Observable;

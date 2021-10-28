@@ -1,21 +1,19 @@
-export default class Observable<Callback>{
-    private _callback:(args:Callback)=>any;
-    private _args:Callback;
-    observables:Observable<Callback>[] = [];
+export default class Observable<Arguments>{
+    private _callback:(args:Arguments)=>any;
+    observables:Observable<Arguments>[] = [];
     executeOnce:boolean;
     getCallbackByRef = () => { return this._callback; }
-    setCallback = (callback:(args:Callback)=>any) => { this._callback = callback; }
+    setCallback = (callback:(args:Arguments)=>any) => { this._callback = callback; }
     onDispose:Observable<any>;
 
-    constructor(callback:(args:Callback)=>any = null, args:Callback = null, executeOnce:boolean = true){
-        this._args = args;
+    constructor(callback:(args:Arguments)=>any = null, executeOnce:boolean = true){
         this.setCallback(callback);
         this.executeOnce = executeOnce;
     }
-    Add = (callback:(args:Callback)=>any, executeOnce:boolean) => {
-        return this.AddObservable(new Observable<Callback>(callback, this._args, executeOnce));
+    Add = (callback:(args:Arguments)=>any, executeOnce:boolean) => {
+        return this.AddObservable(new Observable<Arguments>(callback, executeOnce));
     }
-    AddObservable = (observable:Observable<Callback>) => {
+    AddObservable = (observable:Observable<Arguments>) => {
         if (observable != this){
             this.observables.push(observable);
             // remove observable from self array when it get disposed of
@@ -35,35 +33,35 @@ export default class Observable<Callback>{
         }
         return this;
     }
-    Remove = (observable:Observable<Callback>) => {
+    Remove = (observable:Observable<Arguments>) => {
         let index = this.observables.indexOf(observable);
         if (index >= 0){
             this.observables.splice(index, 1);
         }
     }
     // execute all observables and callback
-    Resolve = () => {
+    Resolve = (args:Arguments) => {
         // resolve self callback
         if (this._callback){
-            this._callback(this._args);
+            this._callback(args);
         }
         // resolve all observables
         for (let o = 0; o < this.observables.length; o++){
-            this.observables[o].Resolve();
+            this.observables[o].Resolve(args);
         }
         // dispose all executeOnce observables
         for (let o = this.observables.length - 1; o >= 0; o--){
             if (this.observables[o].executeOnce){
-                this.observables[o].Dispose();
+                this.observables[o].Dispose(args);
             }
         }
     }
-    Dispose = () => {
+    Dispose = (args:Arguments) => {
         if (this.onDispose){
-            this.onDispose.Resolve();
+            this.onDispose.Resolve(args);
         }
         for (let i = 0; i < this.observables.length; i++){
-            this.observables[i].Dispose();
+            this.observables[i].Dispose(args);
         }
     }
 }

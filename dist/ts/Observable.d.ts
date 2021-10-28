@@ -1,15 +1,14 @@
-export default class Observable<Callback> {
+export default class Observable<Arguments> {
     private _callback;
-    private _args;
-    observables: Observable<Callback>[];
+    observables: Observable<Arguments>[];
     executeOnce: boolean;
-    getCallbackByRef: () => (args: Callback) => any;
-    setCallback: (callback: (args: Callback) => any) => void;
+    getCallbackByRef: () => (args: Arguments) => any;
+    setCallback: (callback: (args: Arguments) => any) => void;
     onDispose: Observable<any>;
-    constructor(callback?: (args: Callback) => any, args?: Callback, executeOnce?: boolean);
-    Add: (callback: (args: Callback) => any, executeOnce: boolean) => this;
-    AddObservable: (observable: Observable<Callback>) => this;
-    Remove: (observable: Observable<Callback>) => void;
-    Resolve: () => void;
-    Dispose: () => void;
+    constructor(callback?: (args: Arguments) => any, executeOnce?: boolean);
+    Add: (callback: (args: Arguments) => any, executeOnce: boolean) => this;
+    AddObservable: (observable: Observable<Arguments>) => this;
+    Remove: (observable: Observable<Arguments>) => void;
+    Resolve: (args: Arguments) => void;
+    Dispose: (args: Arguments) => void;
 }
