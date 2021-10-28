@@ -1,4 +1,4 @@
-export default class Observable<Arguments> {
+export default class Observable<Arguments = null> {
     private _callback;
     observables: Observable<Arguments>[];
     executeOnce: boolean;
@@ -9,6 +9,6 @@ export default class Observable<Arguments> {
     Add: (callback: (args: Arguments) => any, executeOnce: boolean) => this;
     AddObservable: (observable: Observable<Arguments>) => this;
     Remove: (observable: Observable<Arguments>) => void;
-    Resolve: (args: Arguments) => void;
-    Dispose: (args: Arguments) => void;
+    Resolve: (args?: Arguments) => void;
+    Dispose: (args?: Arguments) => void;
 }

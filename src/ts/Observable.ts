@@ -1,4 +1,4 @@
-export default class Observable<Arguments>{
+export default class Observable<Arguments=null>{
     private _callback:(args:Arguments)=>any;
     observables:Observable<Arguments>[] = [];
     executeOnce:boolean;
@@ -40,7 +40,7 @@ export default class Observable<Arguments>{
         }
     }
     // execute all observables and callback
-    Resolve = (args:Arguments) => {
+    Resolve = (args?:Arguments) => {
         // resolve self callback
         if (this._callback){
             this._callback(args);
@@ -56,7 +56,7 @@ export default class Observable<Arguments>{
             }
         }
     }
-    Dispose = (args:Arguments) => {
+    Dispose = (args?:Arguments) => {
         if (this.onDispose){
             this.onDispose.Resolve(args);
         }
