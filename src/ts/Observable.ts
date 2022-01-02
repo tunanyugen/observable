@@ -43,7 +43,6 @@ export default class Observable<Arguments=null>{
     }
     // execute all observables and callback
     Resolve = (args?:Arguments) => {
-        console.log(this.discardCondition)
         if (this.discardCondition && this.discardCondition()){ return }
         // resolve self callback
         if (this._callback){
