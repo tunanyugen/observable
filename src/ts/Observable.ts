@@ -1,17 +1,19 @@
 export default class Observable<Arguments=null>{
     private _callback:(args:Arguments)=>any;
+    discardCondition:()=>boolean;
     observables:Observable<Arguments>[] = [];
     executeOnce:boolean;
     getCallbackByRef = () => { return this._callback; }
     setCallback = (callback:(args:Arguments)=>any) => { this._callback = callback; }
     onDispose:Observable<any>;
 
-    constructor(callback:(args:Arguments)=>any = null, executeOnce:boolean = true){
+    constructor(callback:(args:Arguments)=>any = null, executeOnce:boolean = true, discardCondition:()=>boolean = null){
         this.setCallback(callback);
         this.executeOnce = executeOnce;
+        this.discardCondition = discardCondition;
     }
-    Add = (callback:(args:Arguments)=>any, executeOnce:boolean) => {
-        return this.AddObservable(new Observable<Arguments>(callback, executeOnce));
+    Add = (callback:(args:Arguments)=>any, executeOnce:boolean, discardCondition:()=>boolean = null) => {
+        return this.AddObservable(new Observable<Arguments>(callback, executeOnce, discardCondition));
     }
     AddObservable = (observable:Observable<Arguments>) => {
         if (observable != this){
@@ -41,6 +43,7 @@ export default class Observable<Arguments=null>{
     }
     // execute all observables and callback
     Resolve = (args?:Arguments) => {
+        if (this.discardCondition && this.discardCondition()){ return }
         // resolve self callback
         if (this._callback){
             this._callback(args);
