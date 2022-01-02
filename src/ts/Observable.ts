@@ -15,7 +15,7 @@ export default class Observable<Arguments=null>{
     Add = (callback:(args:Arguments)=>any, executeOnce:boolean, discardCondition:()=>boolean = null) => {
         return this.AddObservable(new Observable<Arguments>(callback, executeOnce, discardCondition));
     }
-    AddObservable = (observable:Observable<Arguments>) => {
+    AddObservable = (observable:Observable<Arguments>, discardCondition:()=>boolean = null) => {
         if (observable != this){
             this.observables.push(observable);
             // remove observable from self array when it get disposed of
@@ -23,12 +23,12 @@ export default class Observable<Arguments=null>{
                 observable.onDispose.AddObservable(
                     new Observable(() => {
                         this.Remove(observable);
-                    }, true)
+                    }, true, discardCondition)
                 )
             } else {
                 observable.onDispose = new Observable(() => {
                     this.Remove(observable);
-                }, true)
+                }, true, discardCondition)
             }
         } else {
             console.error("Cannot add observable to itself.");
