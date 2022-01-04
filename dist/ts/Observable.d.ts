@@ -1,3 +1,4 @@
+import { ObservableManager } from "./ObservableManager";
 export default class Observable<Arguments = null> {
     private _callback;
     discardCondition: () => boolean;
@@ -5,9 +6,9 @@ export default class Observable<Arguments = null> {
     executeOnce: boolean;
     getCallbackByRef: () => (args: Arguments) => any;
     setCallback: (callback: (args: Arguments) => any) => void;
-    onDispose: Observable<any>;
-    constructor(callback?: (args: Arguments) => any, executeOnce?: boolean, discardCondition?: () => boolean);
-    Add: (callback: (args: Arguments) => any, executeOnce: boolean, discardCondition?: () => boolean) => this;
+    disposeObservable: Observable<any>;
+    constructor(manager: ObservableManager, callback?: (args: Arguments) => any, executeOnce?: boolean, discardCondition?: () => boolean);
+    Add: (manager: ObservableManager, callback: (args: Arguments) => any, executeOnce: boolean, discardCondition?: () => boolean) => this;
     AddObservable: (observable: Observable<Arguments>) => this;
     Remove: (observable: Observable<Arguments>) => void;
     Resolve: (args?: Arguments) => void;
